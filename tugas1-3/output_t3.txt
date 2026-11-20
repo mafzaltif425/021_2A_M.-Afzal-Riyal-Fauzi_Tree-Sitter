@@ -1,0 +1,40 @@
+﻿======================================================================
+PENGUJIAN LENGKAP SEMUA QUERY TUGAS 3 TERHADAP FILE UJI
+Target File: tugas1-3/contoh_t3.py
+======================================================================
+=== Menjalankan 'q_fungsi_params.scm' pada 'tugas1-3/contoh_t3.py' ===
+No. Baris    Nama Fungsi               Jumlah Parameter  
+-------------------------------------------------------
+Baris 15     tanpa_param               0 parameter
+Baris 20     hitung_luas               2 parameter
+Baris 26     kalkulasi_volume          3 parameter
+Baris 32     cetak_pesan               1 parameter
+
+=== Menjalankan 'q_print.scm' pada 'tugas1-3/contoh_t3.py' ===
+No. Baris    Pemanggilan print(...)                  
+-------------------------------------------------------
+Baris 23     print(f"Luas: {luas}")
+Baris 29     print(f"Volume: {volume}")
+Baris 33     print("LOG:", pesan)
+
+=== Menjalankan 'q_import.scm' pada 'tugas1-3/contoh_t3.py' ===
+No. Baris    Nama Modul Yang Di-import     
+-------------------------------------------------------
+Baris 10     math
+Baris 11     sys
+Baris 12     datetime
+Baris 13     os
+
+=== Menjalankan 'q_docstring.scm' pada 'tugas1-3/contoh_t3.py' ===
+No. Baris    Fungsi               Docstring                               
+---------------------------------------------------------------------------
+Baris 15     tanpa_param          """Fungsi tanpa parameter sama sekali."""
+Baris 20     hitung_luas          """Menghitung luas persegi panjang dengan dua...
+
+======================================================================
+VERIFIKASI MANUAL GROUND TRUTH:
+  1. Definisi fungsi: 4 fungsi terdeteksi (tanpa_param: 0, hitung_luas: 2, kalkulasi_volume: 3, cetak_pesan: 1) -> COCOK 100%
+  2. Pemanggilan print: 3 pemanggilan terdeteksi (di baris 20, 26, 30) -> COCOK 100%
+  3. Import modul: 4 import terdeteksi (math, sys, datetime, os) -> COCOK 100%
+  4. Docstring: 2 docstring terdeteksi (tanpa_param, hitung_luas) -> COCOK 100%
+======================================================================

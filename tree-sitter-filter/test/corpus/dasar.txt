@@ -1,0 +1,129 @@
+==================
+1. Perbandingan dasar string dan angka
+==================
+
+status = "open" and priority >= 2
+
+---
+
+(query
+  (and_expression
+    left: (comparison
+      field: (identifier)
+      value: (string))
+    right: (comparison
+      field: (identifier)
+      value: (number))))
+
+==================
+2. Prioritas and lebih tinggi dari or
+==================
+
+a = 1 or b = 2 and c = 3
+
+---
+
+(query
+  (or_expression
+    left: (comparison
+      field: (identifier)
+      value: (number))
+    right: (and_expression
+      left: (comparison
+        field: (identifier)
+        value: (number))
+      right: (comparison
+        field: (identifier)
+        value: (number)))))
+
+==================
+3. Pengelompokan dengan tanda kurung
+==================
+
+(a = 1 or b = 2) and c = 3
+
+---
+
+(query
+  (and_expression
+    left: (parenthesized
+      (or_expression
+        left: (comparison
+          field: (identifier)
+          value: (number))
+        right: (comparison
+          field: (identifier)
+          value: (number))))
+    right: (comparison
+      field: (identifier)
+      value: (number))))
+
+==================
+4. Ekspresi not dan boolean
+==================
+
+not is_deleted = false
+
+---
+
+(query
+  (not_expression
+    operand: (comparison
+      field: (identifier)
+      value: (boolean))))
+
+==================
+5. Operator in dengan tiga nilai
+==================
+
+status in ("open", "pending", "resolved")
+
+---
+
+(query
+  (in_expression
+    field: (identifier)
+    values: (string)
+    values: (string)
+    values: (string)))
+
+==================
+6. Operator contains untuk pencarian teks
+==================
+
+customer.name contains "budi"
+
+---
+
+(query
+  (contains_expression
+    field: (identifier)
+    value: (string)))
+
+==================
+7. Query kompleks gabungan admin enterprise
+==================
+
+(status = "active" or role in ("admin", "supervisor")) and not department.is_locked = true and title contains "Manager"
+
+---
+
+(query
+  (and_expression
+    left: (and_expression
+      left: (parenthesized
+        (or_expression
+          left: (comparison
+            field: (identifier)
+            value: (string))
+          right: (in_expression
+            field: (identifier)
+            values: (string)
+            values: (string))))
+      right: (not_expression
+        operand: (comparison
+          field: (identifier)
+          value: (boolean))))
+    right: (contains_expression
+      field: (identifier)
+      value: (string))))

@@ -1,0 +1,31 @@
+﻿Total node rekursif: 763
+Total node TreeCursor: 763
+Apakah hasil Rekursif dan TreeCursor IDENTIK? -> True
+Perbandingan Sukses: Output kedua metode 100% cocok.
+
+Cuplikan 25 baris pertama:
+module [1:0]
+  expression_statement [1:0]
+    string [1:0]
+      string_start [1:0]
+      string_content [1:3]
+      string_end [4:0]
+  import_statement [6:0]
+    name: dotted_name [6:7]
+      identifier [6:7]
+  import_statement [7:0]
+    name: dotted_name [7:7]
+      identifier [7:7]
+  import_statement [8:0]
+    name: dotted_name [8:7]
+      identifier [8:7]
+  import_statement [9:0]
+    name: dotted_name [9:7]
+      identifier [9:7]
+  import_from_statement [10:0]
+    module_name: dotted_name [10:5]
+      identifier [10:5]
+    name: dotted_name [10:19]
+      identifier [10:19]
+    name: dotted_name [10:25]
+      identifier [10:25]

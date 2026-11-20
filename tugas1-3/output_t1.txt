@@ -1,0 +1,79 @@
+﻿======================================================================
+TUGAS 1: MEMBACA POHON SINTAKS (TREE-SITTER)
+======================================================================
+
+--- Potongan 1. Fungsi ---
+Kode Sumber:
+def hitung_diskon(harga, persen):
+    return harga * (1 - persen / 100)
+
+[Perkiraan Pohon (Mental Model)]:
+(module (function_definition name: (identifier) parameters: (parameters (identifier) (identifier)) body: (block (return_statement (binary_operator left: (identifier) right: (parenthesized_expression (binary_operator left: (integer) right: (binary_operator left: (identifier) right: (integer)))))))))
+
+[Pohon Sebenarnya (tree.root_node)]:
+(module (function_definition name: (identifier) parameters: (parameters (identifier) (identifier)) body: (block (return_statement (binary_operator left: (identifier) right: (parenthesized_expression (binary_operator left: (integer) right: (binary_operator left: (identifier) right: (integer)))))))))
+
+--- Potongan 2. If/Else ---
+Kode Sumber:
+if nilai >= 75:
+    status = "Lulus"
+else:
+    status = "Remidi"
+
+[Perkiraan Pohon (Mental Model)]:
+(module (if_statement condition: (comparison_operator left: (identifier) operator: ">=" right: (integer)) consequence: (block (expression_statement (assignment left: (identifier) right: (string)))) alternative: (else_clause (block (expression_statement (assignment left: (identifier) right: (string)))))))
+
+[Pohon Sebenarnya (tree.root_node)]:
+(module (if_statement condition: (comparison_operator (identifier) (integer)) consequence: (block (expression_statement (assignment left: (identifier) right: (string (string_start) (string_content) (string_end))))) alternative: (else_clause body: (block (expression_statement (assignment left: (identifier) right: (string (string_start) (string_content) (string_end))))))))
+
+--- Potongan 3. Kelas dengan Satu Method ---
+Kode Sumber:
+class Rekening:
+    def setor(self, jumlah):
+        self.saldo += jumlah
+
+[Perkiraan Pohon (Mental Model)]:
+(module (class_definition name: (identifier) body: (block (function_definition name: (identifier) parameters: (parameters (identifier) (identifier)) body: (block (expression_statement (augmented_assignment left: (attribute) right: (identifier))))))))
+
+[Pohon Sebenarnya (tree.root_node)]:
+(module (class_definition name: (identifier) body: (block (function_definition name: (identifier) parameters: (parameters (identifier) (identifier)) body: (block (expression_statement (augmented_assignment left: (attribute object: (identifier) attribute: (identifier)) right: (identifier))))))))
+
+======================================================================
+PEMERIKSAAN NODE BERNAMA VS NODE ANONIM PADA FUNGSI
+======================================================================
+Parent Node: function_definition (is_named: True)
+
+Semua children (node.children) - mencakup node anonim:
+  [0] type: def                    status: ANONIM   text: 'def'
+  [1] type: identifier             status: BERNAMA  text: 'hitung_diskon' [field: name]
+  [2] type: parameters             status: BERNAMA  text: '(harga, persen)' [field: parameters]
+  [3] type: :                      status: ANONIM   text: ':'
+  [4] type: block                  status: BERNAMA  text: 'return harga * (1 - persen / 100)' [field: body]
+
+Hanya named_children (node.named_children) - node anonim disaring:
+  [0] type: identifier             text: 'hitung_diskon'
+  [1] type: parameters             text: '(harga, persen)'
+  [2] type: block                  text: 'return harga * (1 - persen / 100)'
+
+Contoh Node Anonim tersembunyi yang ditemukan:
+  1. 'def'  -> keyword pendefinisian fungsi (node anonim string literal)
+  2. ':'    -> titik dua pembuka blok kode
+  3. '('    -> kurung buka pada daftar parameter (di dalam parameters)
+  4. ')'    -> kurung tutup pada daftar parameter
+  5. '*'    -> operator aritmetika perkalian
+
+======================================================================
+PENGUJIAN ERROR RECOVERY (SINTAKS RUSAK)
+======================================================================
+
+Kasus A: Hilang tanda ':' pada def
+Kode: def sapa(nama) \n return nama
+Pohon hasil parse:
+(module (ERROR (identifier) (parameters (identifier)) (identifier)))
+Has Error: True
+
+Kasus B: Hilang kurung tutup ')' pada parameter
+Kode: def sapa(nama: \n return nama
+Pohon hasil parse:
+(module (ERROR (identifier) (identifier)) (return_statement (identifier)))
+Has Error: True

@@ -1,0 +1,23 @@
+{
+  "$schema": "https://tree-sitter.github.io/tree-sitter/assets/schemas/config.schema.json",
+  "grammars": [
+    {
+      "name": "filter",
+      "camelcase": "Filter",
+      "scope": "source.filter",
+      "file-types": ["filter"],
+      "highlights": "queries/highlights.scm"
+    }
+  ],
+  "metadata": {
+    "version": "0.1.0",
+    "description": "Tree-sitter grammar for Admin Dashboard DSL Filter",
+    "authors": [
+      {
+        "name": "M. Afzal Riyal Fauzi",
+        "email": "afzal@student.pens.ac.id"
+      }
+    ],
+    "license": "MIT"
+  }
+}

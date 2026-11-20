@@ -1,0 +1,1 @@
+status = "open" and (priority > 2 or owner = "budi") and category in ("bug", "incident", "security") and not archived = true and description contains "database connection timeout"
